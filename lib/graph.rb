@@ -3,6 +3,7 @@ class Graph
 
   def initialize 
     @vertex_list = []
+    @move_options_arr = [[2,1],[-2,1],[2,-1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]]
   end
 
   def create_vl
@@ -32,17 +33,24 @@ class Graph
         end
     end
   end
+  
   def move_options(starting_coordinates)
     moves = Array.new
-    moves << knight_move(starting_coordinates, [2,1]) 
-    moves << knight_move(starting_coordinates, [-2,1])
-    moves << knight_move(starting_coordinates, [2,-1])
-    moves << knight_move(starting_coordinates, [-2,-1])
-    moves << knight_move(starting_coordinates, [1,2])
-    moves << knight_move(starting_coordinates, [1,-2])
-    moves << knight_move(starting_coordinates, [-1,2])
-    moves << knight_move(starting_coordinates, [-1,-2])
+    @move_options_arr.each do |move|
+      moves << knight_move(starting_coordinates, move)
+    end
     moves.compact!
-    moves
+    moves.each do |move| #iterate through moves array
+      @vertex_list.each do |vertex| #iterate through vertex list
+        if vertex.data == move #if current move matches a vertex coordinate add that coordinate as an edge by
+          @vertex_list.each do |v| #iterate through vertex list to find the node that matches with the starting coordinates
+            if v.data == starting_coordinates #find the node that matches the starting coordinates
+              v.edges << vertex #add vertex node to starting coordinate node.edge
+            end
+          end
+        end
+      end
+    end
+    #moves
   end
 end
