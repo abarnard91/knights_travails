@@ -53,4 +53,18 @@ class Graph
     end
     #moves
   end
+
+  def traversal(start_place, end_place)
+    sc = nil
+    @vertex_list.each do |v|
+      if start_place == v.data
+        sc = v
+      end
+    end
+    if sc.nil?
+        return "Starting coordinates not found"
+    end
+    puts sc
+  end
+
 end
