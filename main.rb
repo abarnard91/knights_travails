@@ -29,4 +29,6 @@ end
 #end
 #
 
-test.traversal([3,3], [7,2])
+#test.traversal([3,3], [7,2])
+#test.traversal([0,0],[1,2])
+test.traversal([0,0], [7,7])

@@ -55,16 +55,70 @@ class Graph
   end
 
   def traversal(start_place, end_place)
-    sc = nil
+    sc = nil #starting coordinates
+    visited_verticies = Array.new
+    moves = Array.new 
+    queue = Array.new
+    loms = Array.new #list of move sets
     @vertex_list.each do |v|
       if start_place == v.data
         sc = v
+        visited_verticies.push(sc)
+        queue.push(sc)
+        moves.push(sc)
       end
     end
     if sc.nil?
         return "Starting coordinates not found"
     end
-    puts sc
-  end
 
+    until queue.empty? 
+    #10.times do
+      #puts queue.length
+      queue.each do |move|
+        #puts move
+        visited_verticies << move unless visited_verticies.include?(move)
+        moves << move unless moves.include?(move)
+        if move.data == end_place
+          moves.map!{|vertex| vertex.data}
+          loms << moves unless loms.include?(moves)
+          moves = [sc]
+          break
+          puts "Why are you seeing this!"
+        else
+          #puts "HIIIIII"
+          move.edges.each do |edge|
+            if edge.data == end_place
+              moves << edge 
+              moves.map!{|vertex| vertex.data}
+              loms << moves unless loms.include?(moves)
+              moves = [sc]
+              break
+              puts "You shouldn\'t see this"
+            else
+              if queue.include?(edge) || visited_verticies.include?(edge) 
+                #puts "its already there"
+              else
+                queue << edge
+                #puts "added"
+              end
+            end
+          end
+        end
+      end
+      queue.shift
+    end
+    spl = 65 #shortest path length
+    spi = 0
+   loms.each_with_index do |move_set, i|
+    puts "#{i} #{move_set}"
+
+    if move_set.length < spl
+      spl = move_set.length 
+      spi = i #shortest path index
+    end
+   end
+   puts "#{spl} #{loms[spi]}"
+  end
+  
 end
